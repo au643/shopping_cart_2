@@ -26,43 +26,56 @@ products = [
     {"id":20, "name": "Pomegranate Cranberry & Aloe Vera Enrich Drink", "department": "beverages", "aisle": "juice nectars", "price": 4.25}
 ] # based on data from Instacart: https://www.instacart.com/datasets/grocery-shopping-2017
 
-valid_ids = [str(p["id"]) for p in products] # doing comparisons with string versions of these ids
-print("VALID IDS:", valid_ids)
+
+def to_usd(my_price):
+    return "${0:,.2f}".format(my_price)
+
+
+now = datetime.datetime.now()
+#print("VALID IDS:", valid_ids)
 
 print("---------------------")
 print ("TARGET")
 print ("www.Target.com")
+print ("255 Greenwich St, New York, NY 10007")
+print("---------------------")
+print ("CHECKOUT AT: " + str(now.strftime("%Y-%m-%d %H:%M:%S")))
 print("---------------------")
 
+#print("VALID IDS:", valid_ids)
+
+valid_ids = [str(p["id"]) for p in products] # doing comparisons with string versions of these ids
 total_price = 0 
-item_ids = []
+selected_ids = []
 
 while True:
-    item_id = input ("Please input a product identifier: ")
-    if item_id == "DONE":
-        break
-    else: 
-        item_ids.append(item_id)  
-          
-for item_id in item_ids:
-    matching_products = [p for p in products if str(p["id"]) == str(item_id)] #converting both to strings
-    matching_product = matching_products [0]
-    total_price = total_price + matching_product["price"]
+    selected_id = input("Please input a product identifier, or 'DONE': " ) # the data input will always be a str
+
+    if selected_id == "DONE":
+        break # stops the loop
+    elif str(selected_id) in valid_ids:
+        selected_ids.append(selected_id)
+    else:
+        print("Detected invalid input! Please try again...")
+     
+print ("SELECTED PRODUCTS:" )
+
+for selected_id in selected_ids:
+    selected_ids = [p for p in products if str(p["id"]) == str(selected_id)] #converting both to strings
+    selected_id = selected_ids [0]
+    total_price = total_price + selected_id["price"]
+    total_price_usd = to_usd(total_price)
     tax = total_price * .0875
+    tax_usd = to_usd(tax)
     final_price = tax + total_price
-    print ("SELECTED PRODUCTS:")
-    print (matching_product["name"], matching_product["price"])
+    final_price_usd = to_usd(final_price)
+    price_usd = to_usd(selected_id['price'])
+    print(f"+{selected_id['name']}...{price_usd}")
 
-print ("SUBTOTAL:"+ str(total_price))
-print ("Tax:" + str(tax))
-print ("Total: " + str (final_price))
-
-
-#filtering lists using list comprehension
-# [p for p in products if p["department"] == "snacks"]
-# [p["name"] for p in products if p["department"] == "snacks"]
-#[p for p in products if p["id"]== 4]
-#[p for p in products if p["id"]== 200] returns empty - try to handle that too with 'try'
-#how to read and write files in python
-#interact w/ google sheets with gsspread packgage
-#create a new project on google project, download a credentials.json file then use code to ref local file
+print("-----------------------------------")
+print ("SUBTOTAL:"+ str(total_price_usd))
+print ("TAX:" + str(tax_usd))
+print ("GRAND TOTAL: " + str (final_price_usd))
+print("-----------------------------------")
+print ("THANK YOU!! SEE YOU AGAIN SOON")
+print("-----------------------------------")
