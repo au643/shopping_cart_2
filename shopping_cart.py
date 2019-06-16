@@ -26,6 +26,9 @@ products = [
     {"id":20, "name": "Pomegranate Cranberry & Aloe Vera Enrich Drink", "department": "beverages", "aisle": "juice nectars", "price": 4.25}
 ] # based on data from Instacart: https://www.instacart.com/datasets/grocery-shopping-2017
 
+valid_ids = [str(p["id"]) for p in products] # doing comparisons with string versions of these ids
+print("VALID IDS:", valid_ids)
+
 print("---------------------")
 print ("TARGET")
 print ("www.Target.com")
@@ -38,24 +41,22 @@ while True:
     item_id = input ("Please input a product identifier: ")
     if item_id == "DONE":
         break
-    else:
-       for p in products: 
-            if p not in products:
-                print ("help")
-                break
-            else: 
-                item_ids.append(item_id)     
-
+    else: 
+        item_ids.append(item_id)  
+          
 for item_id in item_ids:
     matching_products = [p for p in products if str(p["id"]) == str(item_id)] #converting both to strings
     matching_product = matching_products [0]
     total_price = total_price + matching_product["price"]
+    tax = total_price * .0875
+    final_price = tax + total_price
     print ("SELECTED PRODUCTS:")
     print (matching_product["name"], matching_product["price"])
-            # print ("SELECTED PRODUCTS:",matching_product["name"], matching_product["price"]) #Can we use commas to concatenate instead of converting to strings ?
-    
 
 print ("SUBTOTAL:"+ str(total_price))
+print ("Tax:" + str(tax))
+print ("Total: " + str (final_price))
+
 
 #filtering lists using list comprehension
 # [p for p in products if p["department"] == "snacks"]
