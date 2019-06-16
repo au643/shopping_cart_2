@@ -40,6 +40,7 @@ print ("www.Target.com")
 print ("255 Greenwich St, New York, NY 10007")
 print("---------------------")
 print ("CHECKOUT AT: " + str(now.strftime("%Y-%m-%d %H:%M:%S")))
+#found help on how to print datetimes on: https://www.w3resource.com/python-exercises/python-basic-exercise-3.php
 print("---------------------")
 
 #print("VALID IDS:", valid_ids)
